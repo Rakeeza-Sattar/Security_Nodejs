@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Shield, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,7 @@ export default function AuthPage() {
     email: "",
     fullName: "",
     confirmPassword: "",
+    role: "homeowner",
   });
 
   // Redirect if already logged in
@@ -60,7 +62,7 @@ export default function AuthPage() {
           password: formData.password,
           email: formData.email,
           fullName: formData.fullName,
-          role: "homeowner",
+          role: formData.role,
         },
         {
           onSuccess: () => {
@@ -138,6 +140,23 @@ export default function AuthPage() {
                         required
                         data-testid="input-email"
                       />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="role">Role</Label>
+                      <Select
+                        value={formData.role}
+                        onValueChange={(value) => handleInputChange("role", value)}
+                      >
+                        <SelectTrigger data-testid="select-role">
+                          <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="homeowner">Homeowner</SelectItem>
+                          <SelectItem value="officer">Security Officer</SelectItem>
+                          <SelectItem value="admin">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </>
                 )}
