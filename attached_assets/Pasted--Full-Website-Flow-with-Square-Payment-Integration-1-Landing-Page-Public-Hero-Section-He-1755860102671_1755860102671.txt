@@ -1,0 +1,203 @@
+🌐 Full Website Flow with Square Payment Integration
+1. Landing Page (Public)
+
+Hero Section
+
+Headline: “We send a licensed security officer to your home to document your valuables and receipts.”
+
+Sub-headline + Key Benefits (3 bullets max).
+
+CTA Button: [📅 Schedule Your Free Audit Now] (above the fold, repeated below benefits).
+
+Trust Section
+
+Security badges (ASIS, BBB, Licensed Security).
+
+Testimonials.
+
+Phone number for support.
+
+User Action: Clicks CTA → Goes to Signup Form (Step 1).
+
+2. Signup / Checkout Form (Step 1)
+
+Form Fields
+
+Full Name
+
+Email Address
+
+Mobile Phone Number
+
+Home Address (service location)
+
+Preferred Date & Time (within 7 days → date picker restricted)
+
+Checkbox: “I will have my receipts and valuables ready for documentation.”
+
+Payment Section (Square Payment Integration)
+
+Purpose: Pay one-time service fee and/or Title Protection subscription.
+
+Square Setup Steps:
+
+Create a Square Developer account → Get API keys (Sandbox + Production).
+
+Use Square Payment Form / Web Payments SDK in your checkout form.
+
+Collect card info securely via Square → Tokenize payment.
+
+Server-side call to Square API → Create Payment / Subscription.
+
+Save payment_id, subscription_id, invoice URL in DB.
+
+Validation: Only proceed if payment succeeds.
+
+User Action: Clicks Submit + Pay → Payment processed → Data stored → Confirmation Page.
+
+3. Confirmation Page (Step 2)
+
+Message:
+“Thank you, [Name]. Your free home audit is booked for [Date/Time].”
+
+Checklist / Instructions:
+
+Gather receipts for valuables (electronics, jewelry, furniture, artwork, etc.).
+
+Collect items to photograph/document.
+
+Warranty papers/appraisals.
+
+Officer will arrive in uniform + show ID.
+
+Upsell: “Add Title Protection for $50/month” → [Add Now] (if not purchased already).
+
+System Actions:
+
+Trigger DocuSign Agreement email.
+
+Trigger Calendar integration (Google / HubSpot / GoHighLevel).
+
+Trigger Email confirmation.
+
+4. Email Flows
+
+Immediate Confirmation
+
+Subject: “Your Free Home Audit is Scheduled — Please Prepare Your Valuables”
+
+Includes: Checklist, appointment details, reschedule link, payment confirmation.
+
+24-Hour Reminder
+
+Subject: “Reminder: Your Home Audit is Tomorrow — Please Prepare Your Valuables”
+
+Includes: Checklist + officer arrival info.
+
+5. DocuSign Service Agreement
+
+Auto-email triggered post-signup.
+
+Includes:
+
+Scope of service, item limits, liability, consent for officer to document items, billing terms.
+
+Homeowner signs electronically → Status stored in DB.
+
+6. Officer Visit
+
+Officer Mobile UI
+
+Login → View assigned homes/appointments.
+
+Add items (category, description, value, serial/model).
+
+Upload photos/receipts (secure signed URLs).
+
+Option: Add additional items if limits exceeded → triggers second visit.
+
+Mark audit complete → Generate PDF report.
+
+Homeowner signs digitally on officer device.
+
+7. PDF Report Generation
+
+Auto-generated report includes:
+
+List of documented items.
+
+Photos/receipts.
+
+Officer + homeowner signatures.
+
+Timestamp + report ID.
+
+Stored in DB + emailed to homeowner.
+
+Optional: ZIP evidence pack for insurance claims.
+
+8. Admin Dashboard
+
+View all appointments, payments, audits, reports.
+
+Reassign officers if needed.
+
+Monitor subscription payments (via Square API).
+
+View title monitoring alerts.
+
+9. Title Monitoring Add-On (Optional)
+
+Homeowner opts in: $50/month subscription.
+
+System Actions:
+
+Create subscription via Square API → Store subscription_id in DB.
+
+Sync alerts from Title Monitoring provider API.
+
+Show alerts in homeowner dashboard.
+
+10. Security & Compliance
+
+TLS in transit + encryption at rest.
+
+Role-based access (homeowner, officer, admin).
+
+Signed URLs expire (15 min) for photos/files.
+
+Audit trail for every action.
+
+Nightly backups + offsite retention.
+
+Admin 2FA + IP allowlist.
+
+11. Optional Phase 2 / Nice-to-Haves
+
+Homeowner can self-upload items between visits.
+
+Auto-market valuation pull via UPC/model lookup.
+
+Serial number validation for high-value items.
+
+Automated insurer evidence pack.
+
+Webhooks to Title Monitoring provider for real-time alerts.
+
+🔑 End-to-End Flow Summary
+
+User → Landing Page → Click CTA
+
+Signup Form → Fill Info → Square Payment → Submit
+
+Confirmation Page → Checklist + DocuSign
+
+Email Notifications → Confirmation + 24h Reminder
+
+Officer Visit → Mobile UI → Document Items → Upload Photos
+
+PDF Report Generation → Email to Homeowner
+
+Admin Dashboard → Monitor Appointments, Payments, Reports
+
+Optional Title Monitoring → Subscription handled via Square
