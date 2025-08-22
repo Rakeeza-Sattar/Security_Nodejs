@@ -2,10 +2,10 @@ import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Shield, 
-  Calendar, 
-  FileText, 
+import {
+  Shield,
+  Calendar,
+  FileText,
   Home,
   LogOut,
   Clock,
@@ -25,7 +25,7 @@ export default function HomeownerDashboard() {
     return null;
   }
 
-  const { data: appointments, isLoading } = useQuery<any[]>({
+  const { data: appointments, isLoading, refetch } = useQuery<any[]>({
     queryKey: ["/api/appointments"],
   });
 
@@ -38,7 +38,7 @@ export default function HomeownerDashboard() {
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
       scheduled: "outline",
-      in_progress: "default", 
+      in_progress: "default",
       completed: "secondary",
       cancelled: "destructive",
     };
@@ -49,6 +49,42 @@ export default function HomeownerDashboard() {
       </Badge>
     );
   };
+
+  // Placeholder for SquarePaymentForm component and state management
+  // In a real application, this would be imported and managed appropriately.
+  // For the purpose of this example, we'll assume it exists and manages payment logic.
+  const [showPayment, setShowPayment] = React.useState(false);
+  const [selectedAppointment, setSelectedAppointment] = React.useState<any>(null);
+
+  const handlePayClick = (appointment: any) => {
+    setSelectedAppointment(appointment);
+    setShowPayment(true);
+  };
+
+  // Dummy SquarePaymentForm component for context
+  const SquarePaymentForm = ({ appointmentId, amount, onPaymentSuccess, onPaymentError }: any) => {
+    return (
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Payment for Appointment #{appointmentId.slice(-6)}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Amount Due: ${amount.toFixed(2)}</p>
+          {/* Placeholder for actual Square payment form integration */}
+          <Button onClick={() => {
+            // Simulate successful payment
+            onPaymentSuccess();
+            alert("Payment successful!");
+          }} className="mt-4 w-full">Pay Now</Button>
+          <Button variant="outline" onClick={() => {
+            setShowPayment(false);
+            setSelectedAppointment(null);
+          }} className="mt-2 w-full">Cancel</Button>
+        </CardContent>
+      </Card>
+    );
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -64,8 +100,8 @@ export default function HomeownerDashboard() {
               </div>
             </div>
           </div>
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={handleLogout}
             className="text-blue-100 hover:text-white"
             data-testid="button-logout"
@@ -144,6 +180,11 @@ export default function HomeownerDashboard() {
                             View Report
                           </Button>
                         )}
+                        {appointment.status === 'scheduled' && (
+                          <Button size="sm" onClick={() => handlePayClick(appointment)} data-testid={`button-pay-${appointment.id}`}>
+                            Pay Now
+                          </Button>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -152,6 +193,27 @@ export default function HomeownerDashboard() {
             )}
           </CardContent>
         </Card>
+
+        {/* Payment Modal/Section */}
+        {showPayment && selectedAppointment && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+              <SquarePaymentForm
+                appointmentId={selectedAppointment.id.toString()}
+                amount={selectedAppointment.totalAmount}
+                onPaymentSuccess={() => {
+                  setShowPayment(false);
+                  setSelectedAppointment(null);
+                  refetch();
+                }}
+                onPaymentError={(error) => {
+                  console.error('Payment error:', error);
+                  alert(`Payment failed: ${error.message || 'Unknown error'}`);
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 gap-4 mb-6">

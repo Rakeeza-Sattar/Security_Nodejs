@@ -5,9 +5,10 @@ import { Lock, CreditCard } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface SquarePaymentFormProps {
+  appointmentId: string;
   amount: number;
-  onPaymentSuccess: (sourceId: string, paymentResult: any) => void;
-  onPaymentError: (error: string) => void;
+  onPaymentSuccess: (result: any) => void;
+  onPaymentError: (error: any) => void;
   disabled?: boolean;
 }
 
@@ -17,7 +18,7 @@ declare global {
   }
 }
 
-export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, disabled }: SquarePaymentFormProps) {
+export function SquarePaymentForm({ appointmentId, amount, onPaymentSuccess, onPaymentError, disabled }: SquarePaymentFormProps) {
   const [paymentForm, setPaymentForm] = useState<any>(null);
   const [cardButton, setCardButton] = useState<any>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +110,12 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
 
       if (tokenResult.status === 'OK') {
         const sourceId = tokenResult.token;
-        onPaymentSuccess(sourceId, tokenResult);
+        const paymentRequest = {
+          nonce: sourceId,
+          amount: amount,
+          appointmentId: appointmentId,
+        };
+        onPaymentSuccess(paymentRequest);
       } else {
         let errorMessage = 'Payment failed';
 
@@ -134,8 +140,8 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
         </h4>
 
         {/* Square Card Input Container */}
-        <div 
-          ref={cardContainerRef} 
+        <div
+          ref={cardContainerRef}
           className="mb-4 p-4 border border-gray-200 rounded-lg bg-white"
           style={{ minHeight: '120px' }}
         >
