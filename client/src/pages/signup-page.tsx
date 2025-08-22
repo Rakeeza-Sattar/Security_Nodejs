@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { DatePicker } from "@/components/ui/date-picker";
+import { SquarePaymentForm } from "@/components/square-payment-form";
 
 interface SignupFormData {
   fullName: string;
@@ -21,6 +22,13 @@ interface SignupFormData {
   preferredTime: string;
   hasReceiptsReady: boolean;
   addTitleProtection: boolean;
+}
+
+interface PaymentData {
+  sourceId: string;
+  amount: number;
+  appointmentId: string;
+  idempotencyKey: string;
 }
 
 export default function SignupPage() {
@@ -37,6 +45,9 @@ export default function SignupPage() {
     hasReceiptsReady: false,
     addTitleProtection: false,
   });
+  const [showPayment, setShowPayment] = useState(false);
+  const [appointmentId, setAppointmentId] = useState<string | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const createAppointmentMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -45,15 +56,47 @@ export default function SignupPage() {
     },
     onSuccess: (appointment) => {
       queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
-      toast({
-        title: "Appointment booked successfully!",
-        description: "You will receive a confirmation email shortly.",
-      });
-      setLocation(`/confirmation/${appointment.id}`);
+      setAppointmentId(appointment.id);
+      
+      if (formData.addTitleProtection) {
+        setShowPayment(true);
+        toast({
+          title: "Appointment created!",
+          description: "Please complete payment for Title Protection.",
+        });
+      } else {
+        toast({
+          title: "Appointment booked successfully!",
+          description: "You will receive a confirmation email shortly.",
+        });
+        setLocation(`/confirmation/${appointment.id}`);
+      }
     },
     onError: (error: Error) => {
       toast({
         title: "Booking failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const createPaymentMutation = useMutation({
+    mutationFn: async (data: PaymentData) => {
+      const res = await apiRequest("POST", "/api/payments", data);
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/payments"] });
+      toast({
+        title: "Payment successful!",
+        description: "Your Title Protection subscription is now active.",
+      });
+      setLocation(`/confirmation/${appointmentId}`);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Payment failed",
         description: error.message,
         variant: "destructive",
       });
@@ -105,11 +148,49 @@ export default function SignupPage() {
       status: "scheduled",
     };
 
-    createAppointmentMutation.mutate(appointmentData);
+    if (!formData.addTitleProtection) {
+      // Free service only - create appointment directly
+      createAppointmentMutation.mutate(appointmentData);
+    } else {
+      // Has paid service - create appointment first, then show payment
+      createAppointmentMutation.mutate(appointmentData);
+    }
   };
 
   const handleInputChange = (field: keyof SignupFormData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handlePaymentSuccess = async (sourceId: string, paymentResult: any) => {
+    if (!appointmentId) {
+      toast({
+        title: "Error",
+        description: "No appointment found for payment",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsProcessingPayment(true);
+    
+    const paymentData: PaymentData = {
+      sourceId,
+      amount: 50, // $50 for title protection
+      appointmentId,
+      idempotencyKey: `payment-${appointmentId}-${Date.now()}`
+    };
+
+    createPaymentMutation.mutate(paymentData);
+    setIsProcessingPayment(false);
+  };
+
+  const handlePaymentError = (error: string) => {
+    toast({
+      title: "Payment Error",
+      description: error,
+      variant: "destructive",
+    });
+    setIsProcessingPayment(false);
   };
 
   // Calculate available dates (next 7 days)
@@ -319,56 +400,15 @@ export default function SignupPage() {
                   </Card>
                 </div>
 
-                {/* Square Payment Form Integration */}
-                <Card className="bg-gray-50">
-                  <CardContent className="p-6">
-                    <h4 className="font-medium text-gray-900 mb-4 flex items-center">
-                      <CreditCard className="mr-2" />
-                      Payment Method
-                    </h4>
-                    <div className="space-y-4">
-                      <div>
-                        <Label className="text-sm font-medium text-gray-700 mb-2">Card Number *</Label>
-                        <div className="relative">
-                          <Input
-                            type="text"
-                            placeholder="•••• •••• •••• ••••"
-                            data-testid="input-card-number"
-                          />
-                          <div className="absolute right-3 top-3 flex space-x-1">
-                            <CreditCard className="text-blue-600" size={16} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-sm font-medium text-gray-700 mb-2">Expiry Date *</Label>
-                          <Input
-                            type="text"
-                            placeholder="MM/YY"
-                            data-testid="input-expiry"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium text-gray-700 mb-2">CVV *</Label>
-                          <Input
-                            type="text"
-                            placeholder="•••"
-                            data-testid="input-cvv"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <Card className="mt-4 bg-blue-50 border-blue-200">
-                      <CardContent className="p-3">
-                        <div className="flex items-center">
-                          <Lock className="text-blue-600 mr-2" size={16} />
-                          <span className="text-sm text-blue-800">Secured by Square Payment Processing</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </CardContent>
-                </Card>
+                {/* Square Payment Form Integration - Only show if title protection is selected */}
+                {formData.addTitleProtection && (
+                  <SquarePaymentForm
+                    amount={50}
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                    disabled={isProcessingPayment}
+                  />
+                )}
               </div>
 
               {/* Order Summary */}
@@ -398,18 +438,34 @@ export default function SignupPage() {
 
               {/* Submit Button */}
               <div className="text-center pt-6">
-                <Button
-                  type="submit"
-                  className="w-full bg-accent text-white hover:bg-green-600 py-4 text-lg font-semibold"
-                  disabled={createAppointmentMutation.isPending}
-                  data-testid="button-complete-booking"
-                >
-                  <Calendar className="mr-2" />
-                  {createAppointmentMutation.isPending 
-                    ? "Processing..."
-                    : "Complete Booking & Schedule Audit"
-                  }
-                </Button>
+                {showPayment ? (
+                  <div className="text-center">
+                    <p className="text-gray-600 mb-4">
+                      Complete your Title Protection payment to finish booking
+                    </p>
+                    <SquarePaymentForm
+                      amount={50}
+                      onPaymentSuccess={handlePaymentSuccess}
+                      onPaymentError={handlePaymentError}
+                      disabled={isProcessingPayment || createPaymentMutation.isPending}
+                    />
+                  </div>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="w-full bg-accent text-white hover:bg-green-600 py-4 text-lg font-semibold"
+                    disabled={createAppointmentMutation.isPending}
+                    data-testid="button-complete-booking"
+                  >
+                    <Calendar className="mr-2" />
+                    {createAppointmentMutation.isPending 
+                      ? "Processing..."
+                      : formData.addTitleProtection 
+                        ? "Continue to Payment"
+                        : "Complete Booking & Schedule Audit"
+                    }
+                  </Button>
+                )}
                 <p className="text-xs text-gray-500 mt-2">
                   By clicking submit, you agree to our Terms of Service and Privacy Policy
                 </p>

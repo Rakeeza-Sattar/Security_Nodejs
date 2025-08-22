@@ -58,7 +58,17 @@ app.use((req, res, next) => {
   const port = parseInt(process.env.PORT || "5000", 10);
   const host = "0.0.0.0"; // Bind to all interfaces for Replit
 
-  server.listen(port, host, () => {
+  server.listen(port, host, async () => {
     log(`Server running on http://${host}:${port}`);
+    
+    // Start email reminder schedulers
+    try {
+      const { startReminderScheduler, startDayOfReminderScheduler } = await import("./reminder-scheduler");
+      startReminderScheduler();
+      startDayOfReminderScheduler();
+      log('Email reminder schedulers started');
+    } catch (error: any) {
+      log('Warning: Email reminder schedulers failed to start:', error?.message || error);
+    }
   });
 })();
