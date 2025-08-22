@@ -41,6 +41,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error('Failed to send confirmation email:', emailError);
         // Don't fail the appointment creation if email fails
       }
+
+      // Auto-send DocuSign service agreement
+      try {
+        const { docuSignService } = await import("./docusign-service");
+        const docuSignResult = await docuSignService.createServiceAgreementEnvelope({
+          customerName: appointment.fullName,
+          customerEmail: appointment.email,
+          appointmentId: appointment.id,
+          appointmentDate: new Date(appointment.preferredDate).toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          }),
+          appointmentTime: appointment.preferredTime,
+          address: appointment.address,
+          serviceType: 'Home Security Audit',
+          amount: 0, // Base service is free
+        });
+
+        if (docuSignResult.success) {
+          // Send DocuSign agreement email
+          await emailService.sendDocuSignAgreementEmail({
+            customerName: appointment.fullName,
+            email: appointment.email,
+            appointmentDate: new Date(appointment.preferredDate).toLocaleDateString('en-US'),
+            appointmentTime: appointment.preferredTime,
+            address: appointment.address,
+            appointmentId: appointment.id,
+          }, docuSignResult.signingUrl || '');
+          
+          console.log(`DocuSign agreement sent automatically for appointment ${appointment.id}`);
+        }
+      } catch (docuSignError) {
+        console.error('Failed to send DocuSign agreement:', docuSignError);
+        // Don't fail the appointment creation if DocuSign fails
+      }
       
       res.status(201).json(appointment);
     } catch (error) {
