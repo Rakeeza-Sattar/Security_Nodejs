@@ -257,6 +257,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin-only routes for viewing all payments and reports
+  app.get("/api/admin/payments", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || req.user?.role !== 'admin') {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+
+      const allPayments = await db.select().from(payments).orderBy(desc(payments.createdAt));
+      res.json(allPayments);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch payments" });
+    }
+  });
+
+  app.get("/api/admin/reports", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || req.user?.role !== 'admin') {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+
+      const allReports = await db.select().from(reports).orderBy(desc(reports.createdAt));
+      res.json(allReports);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch reports" });
+    }
+  });
+
   // DocuSign Integration
   app.post("/api/docusign/send-agreement", async (req, res) => {
     try {

@@ -55,6 +55,14 @@ export default function AdminDashboard() {
     queryKey: ["/api/officers"],
   });
 
+  const { data: allPayments, isLoading: paymentsLoading } = useQuery<any[]>({
+    queryKey: ["/api/admin/payments"],
+  });
+
+  const { data: allReports, isLoading: reportsLoading } = useQuery<any[]>({
+    queryKey: ["/api/admin/reports"],
+  });
+
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => setLocation("/"),
@@ -298,11 +306,18 @@ export default function AdminDashboard() {
                               {getStatusBadge(appointment.status)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                              <Button variant="ghost" size="sm" data-testid={`button-edit-appointment-${appointment.id}`}>
-                                <Edit size={16} />
-                              </Button>
-                              <Button variant="ghost" size="sm" data-testid={`button-delete-appointment-${appointment.id}`}>
-                                <Trash2 size={16} />
+                              <AssignOfficerButton 
+                                appointmentId={appointment.id} 
+                                currentOfficerId={appointment.officerId}
+                                officers={officers || []}
+                              />
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
+                                data-testid={`button-confirm-appointment-${appointment.id}`}
+                              >
+                                ✓
                               </Button>
                             </td>
                           </tr>
@@ -322,9 +337,42 @@ export default function AdminDashboard() {
                 <CardTitle>Payment History</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-gray-500" data-testid="payments-empty-state">
-                  No payments found
-                </div>
+                {paymentsLoading ? (
+                  <div className="text-center py-8">Loading payments...</div>
+                ) : !allPayments?.length ? (
+                  <div className="text-center py-8 text-gray-500" data-testid="payments-empty-state">
+                    No payments found
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {allPayments?.map((payment: any) => (
+                          <tr key={payment.id}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payment.customerId}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${payment.amount}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <Badge variant={payment.status === 'completed' ? 'default' : 'secondary'}>
+                                {payment.status}
+                              </Badge>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {new Date(payment.createdAt).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -336,9 +384,46 @@ export default function AdminDashboard() {
                 <CardTitle>Generated Reports</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-gray-500" data-testid="reports-empty-state">
-                  No reports found
-                </div>
+                {reportsLoading ? (
+                  <div className="text-center py-8">Loading reports...</div>
+                ) : !allReports?.length ? (
+                  <div className="text-center py-8 text-gray-500" data-testid="reports-empty-state">
+                    No reports found
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Report #</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Appointment</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Officer</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {allReports?.map((report: any) => (
+                          <tr key={report.id}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{report.reportNumber}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{report.appointmentId}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{report.officerId}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <Badge variant={report.status === 'completed' ? 'default' : 'secondary'}>
+                                {report.status}
+                              </Badge>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <Button variant="ghost" size="sm">
+                                <Download size={16} />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
