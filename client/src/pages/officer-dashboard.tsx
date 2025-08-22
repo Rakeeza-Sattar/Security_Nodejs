@@ -2,6 +2,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Shield, 
   Calendar, 
@@ -29,16 +30,21 @@ export default function OfficerDashboard() {
     queryKey: ["/api/appointments"],
   });
 
+  // Filter appointments assigned to this officer
+  const assignedAppointments = appointments?.filter((apt: any) => 
+    apt.officerId === user?.id
+  ) || [];
+
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => setLocation("/"),
     });
   };
 
-  const todayAppointments = appointments?.filter((apt: any) => {
+  const todayAppointments = assignedAppointments.filter((apt: any) => {
     const today = new Date().toISOString().split('T')[0];
     return apt.preferredDate === today;
-  }) || [];
+  });
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
@@ -151,7 +157,7 @@ export default function OfficerDashboard() {
           <Card data-testid="stat-total-completed">
             <CardContent className="p-4 text-center">
               <div className="text-2xl font-bold text-accent">
-                {appointments?.filter((apt: any) => apt.status === 'completed').length || 0}
+                {assignedAppointments.filter((apt: any) => apt.status === 'completed').length}
               </div>
               <div className="text-sm text-gray-600">Total Completed</div>
             </CardContent>
@@ -164,29 +170,134 @@ export default function OfficerDashboard() {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button 
-              className="w-full bg-primary text-white justify-start"
-              data-testid="button-view-schedule"
-            >
-              <Calendar className="mr-3" size={16} />
-              View Schedule
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start"
-              data-testid="button-recent-reports"
-            >
-              <FileText className="mr-3" size={16} />
-              Recent Reports
-            </Button>
-            <Button 
-              variant="outline" 
-              className="w-full justify-start"
-              data-testid="button-profile-settings"
-            >
-              <User className="mr-3" size={16} />
-              Profile Settings
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  className="w-full bg-primary text-white justify-start"
+                  data-testid="button-view-schedule"
+                >
+                  <Calendar className="mr-3" size={16} />
+                  View Schedule
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>My Schedule</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  {assignedAppointments.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      No appointments assigned to you
+                    </div>
+                  ) : (
+                    assignedAppointments.map((appointment: any) => (
+                      <Card key={appointment.id} className="border">
+                        <CardContent className="p-4">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <div className="font-medium">{appointment.fullName}</div>
+                              <div className="text-sm text-gray-500">{appointment.address}</div>
+                              <div className="text-sm text-primary">
+                                {appointment.preferredDate} at {appointment.preferredTime}
+                              </div>
+                            </div>
+                            {getStatusBadge(appointment.status)}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  data-testid="button-recent-reports"
+                >
+                  <FileText className="mr-3" size={16} />
+                  Recent Reports
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Recent Reports</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  {assignedAppointments.filter(apt => apt.status === 'completed').length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      No reports generated yet
+                    </div>
+                  ) : (
+                    assignedAppointments
+                      .filter((apt: any) => apt.status === 'completed')
+                      .slice(0, 10)
+                      .map((appointment: any) => (
+                        <Card key={appointment.id} className="border">
+                          <CardContent className="p-4">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <div className="font-medium">{appointment.fullName}</div>
+                                <div className="text-sm text-gray-500">{appointment.address}</div>
+                                <div className="text-sm text-green-600">
+                                  Completed on {appointment.preferredDate}
+                                </div>
+                              </div>
+                              <Button size="sm" variant="outline">
+                                <FileText size={14} className="mr-1" />
+                                View Report
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  data-testid="button-profile-settings"
+                >
+                  <User className="mr-3" size={16} />
+                  Profile Settings
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Profile Settings</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="font-medium">Full Name</div>
+                    <div className="text-gray-600">{user?.fullName || 'Not set'}</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="font-medium">Username</div>
+                    <div className="text-gray-600">{user?.username}</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="font-medium">Email</div>
+                    <div className="text-gray-600">{user?.email || 'Not set'}</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="font-medium">Role</div>
+                    <div className="text-gray-600">Security Officer</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="font-medium">Officer ID</div>
+                    <div className="text-gray-600">#{user?.id?.slice(-8).toUpperCase()}</div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </CardContent>
         </Card>
       </div>

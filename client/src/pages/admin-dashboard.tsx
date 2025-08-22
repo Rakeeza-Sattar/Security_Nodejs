@@ -57,6 +57,65 @@ function AssignOfficerButton({
           title: "Officer assigned successfully",
           description: "The appointment has been assigned to the selected officer",
         });
+        onAssign();
+      } else {
+        throw new Error("Failed to assign officer");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to assign officer",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAssigning(false);
+    }
+  };
+
+  return (
+    <Select onValueChange={handleAssignOfficer} disabled={isAssigning}>
+      <SelectTrigger className="w-40">
+        <SelectValue placeholder={currentOfficerId ? `Officer ${currentOfficerId.slice(-6)}` : "Assign Officer"} />
+      </SelectTrigger>
+      <SelectContent>
+        {officers.map((officer) => (
+          <SelectItem key={officer.id} value={officer.id}>
+            {officer.fullName || officer.username}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+function AssignOfficerButton({ 
+  appointmentId, 
+  currentOfficerId, 
+  officers,
+  onAssign 
+}: { 
+  appointmentId: string; 
+  currentOfficerId?: string; 
+  officers: any[];
+  onAssign: () => void;
+}) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isAssigning, setIsAssigning] = useState(false);
+
+  const handleAssignOfficer = async (officerId: string) => {
+    setIsAssigning(true);
+    try {
+      const response = await fetch(`/api/appointments/${appointmentId}/assign-officer`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ officerId }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Officer assigned successfully",
+          description: "The appointment has been assigned to the selected officer",
+        });
         onAssign(); // Invalidate queries using the callback
       } else {
         throw new Error("Failed to assign officer");
