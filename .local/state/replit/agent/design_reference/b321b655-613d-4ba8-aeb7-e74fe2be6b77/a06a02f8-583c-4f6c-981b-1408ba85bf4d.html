@@ -1,0 +1,1290 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureHome Audit - Professional Home Security Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#475569',
+                        accent: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-primary text-2xl mr-3"></i>
+                    <span class="text-xl font-bold text-gray-900">SecureHome Audit</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-primary">Services</a>
+                    <a href="#" class="text-gray-600 hover:text-primary">About</a>
+                    <a href="#" class="text-gray-600 hover:text-primary">Contact</a>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Login
+                    </button>
+                </div>
+                <button class="md:hidden">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page Section -->
+    <section id="landing-page" class="landing-section">
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-br from-primary to-blue-800 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                    <div>
+                        <h1 class="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+                            We send a licensed security officer to your home to document your valuables and receipts.
+                        </h1>
+                        <p class="text-xl text-blue-100 mb-8">
+                            Professional home security audits by licensed officers. Protect your valuables with comprehensive documentation for insurance claims.
+                        </p>
+                        
+                        <!-- Key Benefits -->
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-3"></i>
+                                <span>Licensed security officers with verified credentials</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-3"></i>
+                                <span>Complete photo documentation and receipts verification</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-3"></i>
+                                <span>Professional PDF reports for insurance claims</span>
+                            </div>
+                        </div>
+
+                        <button onclick="showSection('signup-form')" class="bg-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-600 transition-colors shadow-lg">
+                            <i class="fas fa-calendar-check mr-2"></i>
+                            Schedule Your Free Audit Now
+                        </button>
+                    </div>
+                    <div class="mt-12 lg:mt-0">
+                        <!-- Professional security officer conducting home audit -->
+                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                             alt="Professional security officer documenting home valuables" 
+                             class="rounded-xl shadow-2xl w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust Section -->
+        <div class="bg-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Security Badges -->
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8">Trusted & Certified</h2>
+                    <div class="flex justify-center items-center space-x-12 flex-wrap gap-8">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-certificate text-primary text-4xl mb-2"></i>
+                            <span class="text-sm font-medium">ASIS Certified</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-award text-primary text-4xl mb-2"></i>
+                            <span class="text-sm font-medium">BBB Accredited</span>
+                        </div>
+                        <div class="fas fa-shield-alt text-primary text-4xl mb-2"></i>
+                            <span class="text-sm font-medium">Licensed Security</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-lock text-primary text-4xl mb-2"></i>
+                            <span class="text-sm font-medium">Insured & Bonded</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonials -->
+                <div class="mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 text-center mb-12">What Our Clients Say</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4">"Professional service from start to finish. The officer was thorough and the documentation was exactly what I needed for my insurance claim."</p>
+                            <div class="font-semibold text-gray-900">Sarah M.</div>
+                            <div class="text-sm text-gray-500">Homeowner, Dallas TX</div>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4">"The peace of mind knowing all my valuables are properly documented is invaluable. Highly recommend this service."</p>
+                            <div class="font-semibold text-gray-900">Michael R.</div>
+                            <div class="text-sm text-gray-500">Homeowner, Austin TX</div>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4">"Quick, efficient, and professional. The PDF report was comprehensive and helped me get my insurance claim processed faster."</p>
+                            <div class="font-semibold text-gray-900">Jennifer L.</div>
+                            <div class="text-sm text-gray-500">Homeowner, Houston TX</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Contact -->
+                <div class="text-center">
+                    <div class="bg-primary text-white p-8 rounded-xl inline-block">
+                        <h3 class="text-xl font-semibold mb-2">Need Help? Call Us</h3>
+                        <div class="text-2xl font-bold mb-2">
+                            <i class="fas fa-phone mr-2"></i>
+                            (555) 123-SECURE
+                        </div>
+                        <p class="text-blue-100">Available 24/7 for support</p>
+                    </div>
+                </div>
+
+                <!-- Second CTA -->
+                <div class="text-center mt-12">
+                    <button onclick="showSection('signup-form')" class="bg-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-600 transition-colors shadow-lg">
+                        <i class="fas fa-calendar-check mr-2"></i>
+                        Schedule Your Free Audit Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup/Checkout Form Section -->
+    <section id="signup-form" class="form-section hidden">
+        <div class="min-h-screen bg-gray-50 py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Progress Indicator -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full text-sm font-medium">1</div>
+                            <span class="ml-2 text-sm font-medium text-primary">Booking Details</span>
+                        </div>
+                        <div class="mx-4 h-px bg-gray-300 w-16"></div>
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center w-8 h-8 bg-gray-300 text-gray-600 rounded-full text-sm font-medium">2</div>
+                            <span class="ml-2 text-sm font-medium text-gray-500">Confirmation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-2">Schedule Your Free Home Audit</h2>
+                        <p class="text-gray-600">Fill out the form below to book your appointment with a licensed security officer</p>
+                    </div>
+
+                    <form class="space-y-6">
+                        <!-- Personal Information -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="john@example.com">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mobile Phone Number *</label>
+                                <input type="tel" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Home Address (Service Location) *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="123 Main Street, City, State, ZIP">
+                        </div>
+
+                        <!-- Date & Time Selection -->
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Date *</label>
+                                <input type="date" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <p class="text-xs text-gray-500 mt-1">Available within the next 7 days</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Time *</label>
+                                <select required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option value="">Select a time</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="5:00 PM">5:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation Checkbox -->
+                        <div class="flex items-start">
+                            <input type="checkbox" required class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                            <label class="ml-3 text-sm text-gray-600">
+                                I will have my receipts and valuables ready for documentation at the scheduled appointment time.
+                            </label>
+                        </div>
+
+                        <!-- Payment Section -->
+                        <div class="border-t pt-8">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-6">Payment Information</h3>
+                            
+                            <!-- Service Options -->
+                            <div class="space-y-4 mb-6">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="font-medium text-gray-900">Free Home Audit</div>
+                                            <div class="text-sm text-gray-600">Professional documentation of your valuables</div>
+                                        </div>
+                                        <div class="text-lg font-semibold text-accent">FREE</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" class="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-medium text-gray-900">Title Protection Monitoring</div>
+                                                    <div class="text-sm text-gray-600">Monthly monitoring of your property title for fraudulent activity</div>
+                                                </div>
+                                                <div class="text-lg font-semibold text-primary">$50/month</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Square Payment Form Integration -->
+                            <!-- @COMPONENT: SquarePaymentForm [payment processing] -->
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h4 class="font-medium text-gray-900 mb-4">Payment Method</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Card Number *</label>
+                                        <div class="relative">
+                                            <input type="text" data-mock="true" placeholder="•••• •••• •••• ••••" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                            <div class="absolute right-3 top-3 flex space-x-1">
+                                                <i class="fab fa-cc-visa text-blue-600"></i>
+                                                <i class="fab fa-cc-mastercard text-red-500"></i>
+                                                <i class="fab fa-cc-amex text-blue-500"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Expiry Date *</label>
+                                            <input type="text" data-mock="true" placeholder="MM/YY" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">CVV *</label>
+                                            <input type="text" data-mock="true" placeholder="•••" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-lock text-blue-600 mr-2"></i>
+                                        <span class="text-sm text-blue-800">Secured by Square Payment Processing</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- @END_COMPONENT: SquarePaymentForm -->
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="font-medium text-gray-900 mb-4">Order Summary</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Home Audit Service</span>
+                                    <span class="font-medium">FREE</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-500">
+                                    <span>Title Protection (Optional)</span>
+                                    <span>$50.00/month</span>
+                                </div>
+                                <div class="border-t pt-2 mt-2">
+                                    <div class="flex justify-between font-semibold">
+                                        <span>Total Today</span>
+                                        <span class="text-accent">FREE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center pt-6">
+                            <button type="submit" onclick="showSection('confirmation')" class="w-full bg-accent text-white py-4 px-8 rounded-xl text-lg font-semibold hover:bg-green-600 transition-colors">
+                                <i class="fas fa-calendar-check mr-2"></i>
+                                Complete Booking & Schedule Audit
+                            </button>
+                            <p class="text-xs text-gray-500 mt-2">
+                                By clicking submit, you agree to our Terms of Service and Privacy Policy
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Back to Landing -->
+                <div class="text-center mt-8">
+                    <button onclick="showSection('landing-page')" class="text-primary hover:text-blue-700 font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Page Section -->
+    <section id="confirmation" class="confirmation-section hidden">
+        <div class="min-h-screen bg-gray-50 py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Progress Indicator -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-center">
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center w-8 h-8 bg-accent text-white rounded-full text-sm font-medium">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span class="ml-2 text-sm font-medium text-accent">Booking Details</span>
+                        </div>
+                        <div class="mx-4 h-px bg-accent w-16"></div>
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center w-8 h-8 bg-accent text-white rounded-full text-sm font-medium">2</div>
+                            <span class="ml-2 text-sm font-medium text-accent">Confirmation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                    <div class="mb-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-accent text-white rounded-full mb-4">
+                            <i class="fas fa-check text-2xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-2">Thank you, John!</h2>
+                        <p class="text-xl text-gray-600">Your free home audit is booked for March 15, 2024 at 2:00 PM</p>
+                    </div>
+
+                    <!-- Appointment Details -->
+                    <div class="bg-gray-50 p-6 rounded-lg mb-8">
+                        <h3 class="font-semibold text-gray-900 mb-4">Appointment Details</h3>
+                        <div class="space-y-2 text-left">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Date & Time:</span>
+                                <span class="font-medium" data-bind="appointment.datetime">March 15, 2024 at 2:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Address:</span>
+                                <span class="font-medium" data-bind="customer.address">123 Main St, Dallas, TX 75201</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Officer:</span>
+                                <span class="font-medium">Will be assigned 24 hours before</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preparation Checklist -->
+                    <div class="text-left mb-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">
+                            <i class="fas fa-clipboard-list text-primary mr-2"></i>
+                            Please Prepare the Following:
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-accent mr-3 mt-1"></i>
+                                <span class="text-gray-700">Gather receipts for valuables (electronics, jewelry, furniture, artwork, etc.)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-accent mr-3 mt-1"></i>
+                                <span class="text-gray-700">Collect items to photograph and document</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-accent mr-3 mt-1"></i>
+                                <span class="text-gray-700">Warranty papers and appraisals for high-value items</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-check-circle text-accent mr-3 mt-1"></i>
+                                <span class="text-gray-700">Officer will arrive in uniform and show proper identification</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Title Protection Upsell -->
+                    <div class="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-8">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                            <i class="fas fa-shield-alt text-primary mr-2"></i>
+                            Add Title Protection for Complete Security
+                        </h3>
+                        <p class="text-gray-600 mb-4">Protect your property title from fraud with 24/7 monitoring for just $50/month.</p>
+                        <button class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Title Protection Now
+                        </button>
+                    </div>
+
+                    <!-- Next Steps -->
+                    <div class="text-left mb-8">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">What Happens Next?</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full text-sm font-medium mr-4 mt-0.5">1</div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Service Agreement</div>
+                                    <div class="text-sm text-gray-600">You'll receive a DocuSign email to complete the service agreement</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full text-sm font-medium mr-4 mt-0.5">2</div>
+                                <div>
+                                    <div class="font-medium text-gray-900">24-Hour Reminder</div>
+                                    <div class="text-sm text-gray-600">We'll send you a reminder email with officer details</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full text-sm font-medium mr-4 mt-0.5">3</div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Officer Visit</div>
+                                    <div class="text-sm text-gray-600">Professional documentation of your valuables and receipt verification</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex items-center justify-center w-8 h-8 bg-primary text-white rounded-full text-sm font-medium mr-4 mt-0.5">4</div>
+                                <div>
+                                    <div class="font-medium text-gray-900">PDF Report</div>
+                                    <div class="text-sm text-gray-600">Receive your comprehensive documentation report via email</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-3">Need to Make Changes?</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-phone text-primary mr-2"></i>
+                                <span class="font-medium">(555) 123-SECURE</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-envelope text-primary mr-2"></i>
+                                <span>support@securehomeaudit.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-8 space-y-4">
+                    <button onclick="showSection('admin-dashboard')" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors mr-4">
+                        View Admin Dashboard
+                    </button>
+                    <button onclick="showSection('landing-page')" class="text-primary hover:text-blue-700 font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Dashboard Section -->
+    <section id="admin-dashboard" class="dashboard-section hidden">
+        <div class="min-h-screen bg-gray-50">
+            <!-- Dashboard Header -->
+            <div class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <div class="flex items-center">
+                            <i class="fas fa-tachometer-alt text-primary text-xl mr-3"></i>
+                            <span class="text-xl font-bold text-gray-900">Admin Dashboard</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-user-circle text-gray-400 text-2xl mr-2"></i>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Admin User</div>
+                                    <div class="text-xs text-gray-500">Administrator</div>
+                                </div>
+                            </div>
+                            <button onclick="showSection('landing-page')" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Dashboard Stats -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-blue-100 rounded-full">
+                                <i class="fas fa-calendar-check text-primary text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">24</div>
+                                <div class="text-sm text-gray-600">Appointments Today</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-green-100 rounded-full">
+                                <i class="fas fa-file-alt text-accent text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">156</div>
+                                <div class="text-sm text-gray-600">Reports Generated</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-yellow-100 rounded-full">
+                                <i class="fas fa-dollar-sign text-yellow-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">$7,800</div>
+                                <div class="text-sm text-gray-600">Monthly Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center">
+                            <div class="p-3 bg-purple-100 rounded-full">
+                                <i class="fas fa-users text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">12</div>
+                                <div class="text-sm text-gray-600">Active Officers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="mb-6">
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8">
+                            <button class="dashboard-tab active" onclick="showDashboardTab('appointments')">
+                                <i class="fas fa-calendar mr-2"></i>
+                                Appointments
+                            </button>
+                            <button class="dashboard-tab" onclick="showDashboardTab('payments')">
+                                <i class="fas fa-credit-card mr-2"></i>
+                                Payments
+                            </button>
+                            <button class="dashboard-tab" onclick="showDashboardTab('reports')">
+                                <i class="fas fa-file-alt mr-2"></i>
+                                Reports
+                            </button>
+                            <button class="dashboard-tab" onclick="showDashboardTab('officers')">
+                                <i class="fas fa-user-shield mr-2"></i>
+                                Officers
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Appointments Tab -->
+                <div id="appointments-tab" class="dashboard-content">
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-900">Recent Appointments</h3>
+                                <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    New Appointment
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Officer</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <!-- @MAP: appointments.map(appointment => ( -->
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900" data-bind="appointment.customer.name">John Doe</div>
+                                                <div class="text-sm text-gray-500" data-bind="appointment.customer.email">john@example.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900" data-bind="appointment.datetime">Mar 15, 2024 2:00 PM</div>
+                                            <div class="text-sm text-gray-500" data-bind="appointment.address">123 Main St, Dallas, TX</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900" data-bind="appointment.officer.name">Officer Smith</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                Scheduled
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                            <button class="text-primary hover:text-blue-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-700">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- @END_MAP )) -->
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                <div class="text-sm text-gray-500">sarah@example.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Mar 16, 2024 10:00 AM</div>
+                                            <div class="text-sm text-gray-500">456 Oak Ave, Austin, TX</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Officer Johnson</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                Completed
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                            <button class="text-primary hover:text-blue-700">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-accent hover:text-green-700">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">Michael Brown</div>
+                                                <div class="text-sm text-gray-500">michael@example.com</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Mar 17, 2024 3:00 PM</div>
+                                            <div class="text-sm text-gray-500">789 Pine St, Houston, TX</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Officer Davis</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                In Progress
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                            <button class="text-primary hover:text-blue-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-700">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Tab -->
+                <div id="payments-tab" class="dashboard-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Payment History</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Title Protection</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">$50.00</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900 font-mono">sq_pay_1234567890</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                Completed
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Mar 16, 2024</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div id="reports-tab" class="dashboard-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Generated Reports</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow" data-mock="true">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <i class="fas fa-file-pdf text-red-500 text-2xl"></i>
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Complete</span>
+                                    </div>
+                                    <div class="font-medium text-gray-900 mb-1">Sarah Johnson - Home Audit</div>
+                                    <div class="text-sm text-gray-500 mb-3">Report ID: RPT-2024-001</div>
+                                    <div class="text-xs text-gray-400 mb-3">Generated: Mar 16, 2024</div>
+                                    <button class="w-full bg-primary text-white py-2 px-4 rounded text-sm hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-download mr-2"></i>
+                                        Download PDF
+                                    </button>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow" data-mock="true">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <i class="fas fa-file-pdf text-red-500 text-2xl"></i>
+                                        <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Pending</span>
+                                    </div>
+                                    <div class="font-medium text-gray-900 mb-1">Michael Brown - Home Audit</div>
+                                    <div class="text-sm text-gray-500 mb-3">Report ID: RPT-2024-002</div>
+                                    <div class="text-xs text-gray-400 mb-3">In Progress</div>
+                                    <button class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded text-sm cursor-not-allowed">
+                                        <i class="fas fa-clock mr-2"></i>
+                                        Processing
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Officers Tab -->
+                <div id="officers-tab" class="dashboard-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm">
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-900">Security Officers</h3>
+                                <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add Officer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                            <div class="border border-gray-200 rounded-lg p-4" data-mock="true">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Officer Smith</div>
+                                        <div class="text-sm text-gray-500">License #TX-12345</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Status:</span>
+                                        <span class="text-green-600 font-medium">Active</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Audits Completed:</span>
+                                        <span class="font-medium">45</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Rating:</span>
+                                        <span class="text-yellow-500">★★★★★</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 space-x-2">
+                                    <button class="text-primary hover:text-blue-700 text-sm">
+                                        <i class="fas fa-edit mr-1"></i>
+                                        Edit
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-user-times mr-1"></i>
+                                        Suspend
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4" data-mock="true">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">Officer Johnson</div>
+                                        <div class="text-sm text-gray-500">License #TX-67890</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Status:</span>
+                                        <span class="text-green-600 font-medium">Active</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Audits Completed:</span>
+                                        <span class="font-medium">32</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Rating:</span>
+                                        <span class="text-yellow-500">★★★★☆</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 space-x-2">
+                                    <button class="text-primary hover:text-blue-700 text-sm">
+                                        <i class="fas fa-edit mr-1"></i>
+                                        Edit
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-700 text-sm">
+                                        <i class="fas fa-user-times mr-1"></i>
+                                        Suspend
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Officer Mobile Interface Section -->
+    <section id="officer-mobile" class="officer-section hidden">
+        <div class="min-h-screen bg-gray-50">
+            <!-- Mobile Header -->
+            <div class="bg-primary text-white p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-xl mr-3"></i>
+                        <div>
+                            <div class="font-semibold">Officer Dashboard</div>
+                            <div class="text-sm text-blue-100">Officer Smith</div>
+                        </div>
+                    </div>
+                    <button onclick="showSection('landing-page')" class="text-blue-100 hover:text-white">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <!-- Today's Appointments -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold text-gray-900">Today's Appointments</h3>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4" data-mock="true">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <div class="font-medium text-gray-900" data-bind="appointment.customer.name">John Doe</div>
+                                    <div class="text-sm text-gray-500" data-bind="appointment.address">123 Main St, Dallas, TX</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-medium text-primary">2:00 PM</div>
+                                    <div class="text-xs text-gray-500">Mar 15, 2024</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    Scheduled
+                                </span>
+                                <button onclick="showSection('officer-audit')" class="bg-primary text-white px-4 py-2 rounded-lg text-sm">
+                                    Start Audit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                        <div class="text-2xl font-bold text-primary">8</div>
+                        <div class="text-sm text-gray-600">Audits Today</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                        <div class="text-2xl font-bold text-accent">145</div>
+                        <div class="text-sm text-gray-600">Total Completed</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold text-gray-900">Quick Actions</h3>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <button class="w-full bg-primary text-white p-3 rounded-lg text-left flex items-center">
+                            <i class="fas fa-clipboard-list mr-3"></i>
+                            View Schedule
+                        </button>
+                        <button class="w-full bg-gray-100 text-gray-700 p-3 rounded-lg text-left flex items-center">
+                            <i class="fas fa-file-alt mr-3"></i>
+                            Recent Reports
+                        </button>
+                        <button class="w-full bg-gray-100 text-gray-700 p-3 rounded-lg text-left flex items-center">
+                            <i class="fas fa-user-circle mr-3"></i>
+                            Profile Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Officer Audit Interface -->
+    <section id="officer-audit" class="audit-section hidden">
+        <div class="min-h-screen bg-gray-50">
+            <!-- Audit Header -->
+            <div class="bg-primary text-white p-4">
+                <div class="flex items-center justify-between">
+                    <button onclick="showSection('officer-mobile')" class="text-blue-100 hover:text-white">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="text-center">
+                        <div class="font-semibold">Home Audit</div>
+                        <div class="text-sm text-blue-100">John Doe - 123 Main St</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm">2:00 PM</div>
+                        <div class="text-xs text-blue-100">Started</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <!-- Audit Progress -->
+                <div class="bg-white rounded-xl shadow-sm mb-6 p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-semibold text-gray-900">Audit Progress</h3>
+                        <span class="text-sm text-gray-500">3 of 15 items</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: 20%"></div>
+                    </div>
+                </div>
+
+                <!-- Current Item Documentation -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold text-gray-900">Document Item</h3>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <!-- Item Category -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option>Electronics</option>
+                                <option>Jewelry</option>
+                                <option>Furniture</option>
+                                <option>Artwork</option>
+                                <option>Appliances</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Item Description -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <input type="text" placeholder="e.g., Samsung 65-inch Smart TV" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+
+                        <!-- Value and Serial -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Estimated Value</label>
+                                <input type="number" placeholder="2000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Serial/Model</label>
+                                <input type="text" placeholder="Model #" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <!-- Photo Upload -->
+                        <!-- @FUNCTIONALITY: Camera integration for taking photos -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Photo</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                <i class="fas fa-camera text-4xl text-gray-400 mb-3"></i>
+                                <div class="text-gray-600 mb-2">Take Photo</div>
+                                <button class="bg-primary text-white px-4 py-2 rounded-lg">
+                                    <i class="fas fa-camera mr-2"></i>
+                                    Open Camera
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Receipt Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Receipt (Optional)</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                <i class="fas fa-receipt text-2xl text-gray-400 mb-2"></i>
+                                <div class="text-sm text-gray-600 mb-2">Upload Receipt</div>
+                                <button class="bg-gray-500 text-white px-3 py-2 rounded text-sm">
+                                    <i class="fas fa-upload mr-2"></i>
+                                    Choose File
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-3 pt-4">
+                            <button class="flex-1 bg-accent text-white py-3 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-2"></i>
+                                Add Item
+                            </button>
+                            <button class="flex-1 bg-gray-500 text-white py-3 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i>
+                                Save Draft
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documented Items -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold text-gray-900">Documented Items (3)</h3>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        <div class="p-4 flex items-center justify-between" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                                    <i class="fas fa-tv text-gray-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Samsung 65" Smart TV</div>
+                                    <div class="text-sm text-gray-500">Electronics - $2,000</div>
+                                </div>
+                            </div>
+                            <button class="text-primary hover:text-blue-700">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="p-4 flex items-center justify-between" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                                    <i class="fas fa-gem text-gray-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Diamond Ring</div>
+                                    <div class="text-sm text-gray-500">Jewelry - $5,000</div>
+                                </div>
+                            </div>
+                            <button class="text-primary hover:text-blue-700">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="p-4 flex items-center justify-between" data-mock="true">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gray-200 rounded mr-3 flex items-center justify-center">
+                                    <i class="fas fa-laptop text-gray-500"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">MacBook Pro</div>
+                                    <div class="text-sm text-gray-500">Electronics - $3,500</div>
+                                </div>
+                            </div>
+                            <button class="text-primary hover:text-blue-700">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complete Audit -->
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4">
+                        <button class="w-full bg-accent text-white py-3 rounded-xl font-semibold text-lg">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Complete Audit & Generate Report
+                        </button>
+                        <p class="text-xs text-gray-500 text-center mt-2">
+                            This will generate the PDF report and request homeowner signature
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Section Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+
+            // Update URL hash
+            window.location.hash = sectionId;
+        }
+
+        // Dashboard Tab Navigation
+        function showDashboardTab(tabId) {
+            // Hide all dashboard content
+            const contents = document.querySelectorAll('.dashboard-content');
+            contents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show the selected tab content
+            const targetContent = document.getElementById(tabId + '-tab');
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Update tab styling
+            const tabs = document.querySelectorAll('.dashboard-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Initialize page based on hash
+        (function() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(hash)) {
+                showSection(hash);
+            } else {
+                showSection('landing-page');
+            }
+        })();
+
+        // TODO: Implement Square Payment Processing
+        // TODO: Implement DocuSign Integration  
+        // TODO: Implement form validation and submission
+        // TODO: Implement file upload for photos and receipts
+        // TODO: Implement PDF report generation
+        // TODO: Implement email notification system
+        // TODO: Implement real-time data binding
+        // TODO: Implement authentication and session management
+    </script>
+
+    <style>
+        .dashboard-tab {
+            @apply border-b-2 border-transparent py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors;
+        }
+
+        .dashboard-tab.active {
+            @apply border-primary text-primary;
+        }
+
+        .landing-section,
+        .form-section,
+        .confirmation-section,
+        .dashboard-section,
+        .officer-section,
+        .audit-section {
+            min-height: 100vh;
+        }
+
+        /* Form focus states */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Button hover effects */
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Card hover effects */
+        .hover\:shadow-md:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</body>
+</html>

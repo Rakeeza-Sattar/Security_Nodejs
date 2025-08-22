@@ -198,6 +198,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const reportNumber = `RPT-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
       
+      if (!appointment.customerId) {
+        return res.status(400).json({ message: "Appointment does not have a valid customerId" });
+      }
+
       const report = await storage.createReport({
         appointmentId: req.params.appointmentId,
         customerId: appointment.customerId,
