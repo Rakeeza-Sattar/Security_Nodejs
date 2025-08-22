@@ -26,9 +26,14 @@ export default function HomeownerDashboard() {
     return null;
   }
 
-  const { data: appointments, isLoading, refetch } = useQuery<any[]>({
+  const { data: allAppointments, isLoading, refetch } = useQuery<any[]>({
     queryKey: ["/api/appointments"],
   });
+
+  // Filter appointments for current user only
+  const appointments = allAppointments?.filter((apt: any) => 
+    apt.userId === user?.id || apt.email === user?.email
+  ) || [];
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
