@@ -58,14 +58,17 @@ export function setupAuth(app: Express) {
     done(null, user);
   });
 
+  // Public registration - only for homeowners
   app.post("/api/register", async (req, res, next) => {
     const existingUser = await storage.getUserByUsername(req.body.username);
     if (existingUser) {
       return res.status(400).send("Username already exists");
     }
 
+    // Force role to homeowner for public registration
     const user = await storage.createUser({
       ...req.body,
+      role: 'homeowner',
       password: await hashPassword(req.body.password),
     });
 
@@ -73,6 +76,49 @@ export function setupAuth(app: Express) {
       if (err) return next(err);
       res.status(201).json(user);
     });
+  });
+
+  // Secure admin registration - only accessible with admin key
+  app.post("/api/admin/register", async (req, res, next) => {
+    const { adminKey, ...userData } = req.body;
+    
+    // Check admin key
+    if (adminKey !== process.env.ADMIN_REGISTRATION_KEY) {
+      return res.status(403).send("Invalid admin key");
+    }
+
+    const existingUser = await storage.getUserByUsername(userData.username);
+    if (existingUser) {
+      return res.status(400).send("Username already exists");
+    }
+
+    const user = await storage.createUser({
+      ...userData,
+      role: 'admin',
+      password: await hashPassword(userData.password),
+    });
+
+    res.status(201).json({ message: "Admin created successfully" });
+  });
+
+  // Add officer (admin only)
+  app.post("/api/admin/add-officer", async (req, res, next) => {
+    if (!req.isAuthenticated() || req.user?.role !== 'admin') {
+      return res.status(403).send("Admin access required");
+    }
+
+    const existingUser = await storage.getUserByUsername(req.body.username);
+    if (existingUser) {
+      return res.status(400).send("Username already exists");
+    }
+
+    const user = await storage.createUser({
+      ...req.body,
+      role: 'officer',
+      password: await hashPassword(req.body.password),
+    });
+
+    res.status(201).json({ message: "Officer created successfully", officer: user });
   });
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {

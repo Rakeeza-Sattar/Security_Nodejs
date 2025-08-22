@@ -22,7 +22,11 @@ export default function HomePage() {
               <a href="#about" className="text-gray-600 hover:text-primary">About</a>
               <a href="#contact" className="text-gray-600 hover:text-primary">Contact</a>
               {user ? (
-                <Link href={user.role === 'admin' ? '/admin' : user.role === 'officer' ? '/officer' : '/auth'}>
+                <Link href={
+                  user.role === 'admin' ? '/admin' : 
+                  user.role === 'officer' ? '/officer' : 
+                  '/dashboard'
+                }>
                   <Button data-testid="button-dashboard">Dashboard</Button>
                 </Link>
               ) : (

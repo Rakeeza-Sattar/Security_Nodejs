@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Calendar, 
   FileText, 
@@ -24,6 +28,14 @@ import { useQuery } from "@tanstack/react-query";
 export default function AdminDashboard() {
   const { user, logoutMutation } = useAuth();
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [isAddingOfficer, setIsAddingOfficer] = useState(false);
+  const [officerForm, setOfficerForm] = useState({
+    username: "",
+    fullName: "",
+    email: "",
+    password: "",
+  });
 
   // Redirect non-admin users
   if (user && user.role !== 'admin') {
@@ -47,6 +59,44 @@ export default function AdminDashboard() {
     logoutMutation.mutate(undefined, {
       onSuccess: () => setLocation("/"),
     });
+  };
+
+  const handleAddOfficer = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAddingOfficer(true);
+
+    try {
+      const response = await fetch("/api/admin/add-officer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(officerForm),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Officer added successfully",
+          description: `Officer ${officerForm.fullName} has been created`,
+        });
+        setOfficerForm({ username: "", fullName: "", email: "", password: "" });
+        // Refresh officers list
+        window.location.reload();
+      } else {
+        const error = await response.text();
+        toast({
+          title: "Failed to add officer",
+          description: error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add officer",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAddingOfficer(false);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -299,10 +349,62 @@ export default function AdminDashboard() {
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <CardTitle>Security Officers</CardTitle>
-                  <Button data-testid="button-add-officer">
-                    <Plus className="mr-2" size={16} />
-                    Add Officer
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button data-testid="button-add-officer">
+                        <Plus className="mr-2" size={16} />
+                        Add Officer
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Add Security Officer</DialogTitle>
+                      </DialogHeader>
+                      <form onSubmit={handleAddOfficer} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="username">Username</Label>
+                          <Input
+                            id="username"
+                            value={officerForm.username}
+                            onChange={(e) => setOfficerForm(prev => ({ ...prev, username: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="fullName">Full Name</Label>
+                          <Input
+                            id="fullName"
+                            value={officerForm.fullName}
+                            onChange={(e) => setOfficerForm(prev => ({ ...prev, fullName: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={officerForm.email}
+                            onChange={(e) => setOfficerForm(prev => ({ ...prev, email: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="password">Password</Label>
+                          <Input
+                            id="password"
+                            type="password"
+                            value={officerForm.password}
+                            onChange={(e) => setOfficerForm(prev => ({ ...prev, password: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <Button type="submit" className="w-full" disabled={isAddingOfficer}>
+                          {isAddingOfficer ? "Adding Officer..." : "Add Officer"}
+                        </Button>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardHeader>
               <CardContent>

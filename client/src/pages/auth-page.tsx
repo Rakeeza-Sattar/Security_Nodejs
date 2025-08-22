@@ -122,11 +122,10 @@ export default function AuthPage() {
                       <Label htmlFor="fullName">Full Name</Label>
                       <Input
                         id="fullName"
-                        type="text"
                         value={formData.fullName}
                         onChange={(e) => handleInputChange("fullName", e.target.value)}
                         required
-                        data-testid="input-fullname"
+                        data-testid="input-fullName"
                       />
                     </div>
 
@@ -142,21 +141,8 @@ export default function AuthPage() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Role</Label>
-                      <Select
-                        value={formData.role}
-                        onValueChange={(value) => handleInputChange("role", value)}
-                      >
-                        <SelectTrigger data-testid="select-role">
-                          <SelectValue placeholder="Select role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="homeowner">Homeowner</SelectItem>
-                          <SelectItem value="officer">Security Officer</SelectItem>
-                          <SelectItem value="admin">Admin</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded">
+                      <strong>Note:</strong> This registration is for homeowners only. Officers are added by administrators.
                     </div>
                   </>
                 )}
