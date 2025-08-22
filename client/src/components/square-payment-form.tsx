@@ -49,36 +49,47 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
         return;
       }
 
-      const payments = window.Square.payments(
-        process.env.VITE_SQUARE_APPLICATION_ID || 'sandbox-sq0idb-wmwGKpr076ccNbqJgzjomQ',
-        process.env.VITE_SQUARE_LOCATION_ID || 'RYK'
-      );
+      // Check if container exists
+      if (!cardContainerRef.current) {
+        console.error('Card container not found');
+        return;
+      }
 
-      const card = await payments.card();
-      await card.attach(cardContainerRef.current);
+      const applicationId = import.meta.env.VITE_SQUARE_APPLICATION_ID || 'sandbox-sq0idb-wmwGKpr076ccNbqJgzjomQ';
+      const locationId = import.meta.env.VITE_SQUARE_LOCATION_ID || 'LRK1DPQQ4VFYZ';
 
-      const cardBtn = await payments.card({
+      console.log('Initializing Square with:', { applicationId, locationId });
+
+      const payments = window.Square.payments(applicationId, locationId);
+
+      const card = await payments.card({
         style: {
           '.input-container': {
             borderColor: '#e5e7eb',
-            borderRadius: '8px'
+            borderRadius: '8px',
+            backgroundColor: '#ffffff'
           },
           '.input-container.is-focus': {
             borderColor: '#3b82f6'
           },
           '.input-container.is-error': {
             borderColor: '#ef4444'
+          },
+          '.message-text': {
+            color: '#374151'
           }
         }
       });
 
-      setPaymentForm(payments);
-      setCardButton(cardBtn);
+      await card.attach(cardContainerRef.current);
 
-      await cardBtn.attach(cardContainerRef.current);
+      setPaymentForm(payments);
+      setCardButton(card);
+
+      console.log('Square payment form initialized successfully');
     } catch (error) {
       console.error('Error initializing Square payment form:', error);
-      onPaymentError('Failed to initialize payment form');
+      onPaymentError('Failed to initialize payment form. Please check your Square credentials.');
     }
   };
 
@@ -120,9 +131,15 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
         {/* Square Card Input Container */}
         <div 
           ref={cardContainerRef} 
-          className="mb-4"
-          style={{ minHeight: '100px' }}
-        />
+          className="mb-4 p-4 border border-gray-200 rounded-lg bg-white"
+          style={{ minHeight: '120px' }}
+        >
+          {!cardButton && (
+            <div className="text-center text-gray-500 py-8">
+              Loading payment form...
+            </div>
+          )}
+        </div>
 
         {amount > 0 && (
           <div className="mb-4 p-3 bg-blue-50 rounded-lg">
