@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 
   // Start the server
   const port = parseInt(process.env.PORT || "5000", 10);
-  const host = "127.0.0.1"; // Use localhost or 127.0.0.1
+  const host = "0.0.0.0"; // Bind to all interfaces for Replit
 
   server.listen(port, host, () => {
     log(`Server running on http://${host}:${port}`);
