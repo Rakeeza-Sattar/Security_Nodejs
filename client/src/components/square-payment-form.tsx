@@ -64,10 +64,15 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
 
       const card = await payments.card({
         style: {
+          input: {
+            fontSize: '16px',
+            fontFamily: 'Helvetica Neue, Arial, sans-serif',
+            color: '#374151',
+            backgroundColor: '#ffffff'
+          },
           '.input-container': {
             borderColor: '#e5e7eb',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff'
+            borderRadius: '8px'
           },
           '.input-container.is-focus': {
             borderColor: '#3b82f6'
