@@ -2,8 +2,10 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { insertAppointmentSchema, insertPaymentSchema, insertAuditItemSchema } from "@shared/schema";
+import { insertAppointmentSchema, insertPaymentSchema, insertAuditItemSchema, payments, reports } from "@shared/schema";
 import { z } from "zod";
+import { db } from "./db";
+import { desc } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication routes
@@ -254,6 +256,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(officers);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch officers" });
+    }
+  });
+
+  app.post("/api/admin/add-officer", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || req.user?.role !== 'admin') {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+
+      const { username, fullName, email, password } = req.body;
+      
+      if (!username || !fullName || !email || !password) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
+      const officerData = {
+        username,
+        fullName,
+        email,
+        password,
+        role: 'officer' as const,
+      };
+
+      const officer = await storage.createUser(officerData);
+      res.status(201).json(officer);
+    } catch (error) {
+      console.error('Add officer error:', error);
+      res.status(500).json({ message: error instanceof Error ? error.message : "Failed to add officer" });
     }
   });
 

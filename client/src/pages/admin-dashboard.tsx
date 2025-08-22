@@ -20,15 +20,77 @@ import {
   Eye,
   Plus,
   ShieldQuestion,
-  LogOut
+  LogOut,
+  UserCheck
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+// AssignOfficerButton Component
+function AssignOfficerButton({ 
+  appointmentId, 
+  currentOfficerId, 
+  officers 
+}: { 
+  appointmentId: string; 
+  currentOfficerId?: string; 
+  officers: any[] 
+}) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isAssigning, setIsAssigning] = useState(false);
+
+  const handleAssignOfficer = async (officerId: string) => {
+    setIsAssigning(true);
+    try {
+      const response = await fetch(`/api/appointments/${appointmentId}/assign-officer`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ officerId }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Officer assigned successfully",
+          description: "The appointment has been assigned to the selected officer",
+        });
+        queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+      } else {
+        throw new Error("Failed to assign officer");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to assign officer",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAssigning(false);
+    }
+  };
+
+  return (
+    <Select onValueChange={handleAssignOfficer} disabled={isAssigning}>
+      <SelectTrigger className="w-40">
+        <SelectValue placeholder={currentOfficerId ? `Officer ${currentOfficerId.slice(-6)}` : "Assign Officer"} />
+      </SelectTrigger>
+      <SelectContent>
+        {officers.map((officer) => (
+          <SelectItem key={officer.id} value={officer.id}>
+            {officer.fullName || officer.username}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
 
 export default function AdminDashboard() {
   const { user, logoutMutation } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isAddingOfficer, setIsAddingOfficer] = useState(false);
   const [officerForm, setOfficerForm] = useState({
     username: "",
@@ -67,6 +129,32 @@ export default function AdminDashboard() {
     logoutMutation.mutate(undefined, {
       onSuccess: () => setLocation("/"),
     });
+  };
+
+  const updateAppointmentStatus = async (appointmentId: string, status: string) => {
+    try {
+      const response = await fetch(`/api/appointments/${appointmentId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Appointment updated",
+          description: `Appointment status changed to ${status}`,
+        });
+        queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+      } else {
+        throw new Error("Failed to update appointment");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update appointment status",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleAddOfficer = async (e: React.FormEvent) => {

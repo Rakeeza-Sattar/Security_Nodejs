@@ -229,6 +229,35 @@ export class DatabaseStorage implements IStorage {
       .where(and(eq(users.role, 'officer'), eq(users.isActive, true)));
   }
 
+  // Officers
+  async getOfficers(): Promise<any[]> {
+    return await db.select().from(users).where(eq(users.role, 'officer'));
+  }
+
+  async assignOfficer(appointmentId: string, officerId: string): Promise<void> {
+    await db.update(appointments)
+      .set({ officerId })
+      .where(eq(appointments.id, appointmentId));
+  }
+
+  async updateAppointmentStatus(appointmentId: string, status: string): Promise<void> {
+    await db.update(appointments)
+      .set({ status })
+      .where(eq(appointments.id, appointmentId));
+  }
+
+  async getAppointment(appointmentId: string): Promise<any> {
+    const [appointment] = await db.select()
+      .from(appointments)
+      .where(eq(appointments.id, appointmentId));
+    return appointment;
+  }
+
+  async createReport(reportData: any): Promise<any> {
+    const [report] = await db.insert(reports).values(reportData).returning();
+    return report;
+  }
+
   // Dashboard Stats
   async getDashboardStats(): Promise<{
     appointmentsToday: number;
