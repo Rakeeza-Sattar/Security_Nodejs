@@ -12,10 +12,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Appointments
   app.post("/api/appointments", async (req, res) => {
     try {
-      const validatedData = insertAppointmentSchema.parse(req.body);
+      // Create a temporary customer ID for guest bookings
+      const tempCustomerId = `guest_${Date.now()}`;
+      const appointmentData = {
+        ...req.body,
+        customerId: tempCustomerId,
+      };
+      
+      const validatedData = insertAppointmentSchema.parse(appointmentData);
       const appointment = await storage.createAppointment(validatedData);
       res.status(201).json(appointment);
     } catch (error) {
+      console.error('Appointment creation error:', error);
       res.status(400).json({ message: error instanceof Error ? error.message : "Invalid data" });
     }
   });

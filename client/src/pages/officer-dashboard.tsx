@@ -25,7 +25,7 @@ export default function OfficerDashboard() {
     return null;
   }
 
-  const { data: appointments, isLoading } = useQuery({
+  const { data: appointments, isLoading } = useQuery<any[]>({
     queryKey: ["/api/appointments"],
   });
 

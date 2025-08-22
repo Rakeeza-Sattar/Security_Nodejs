@@ -31,15 +31,15 @@ export default function AdminDashboard() {
     return null;
   }
 
-  const { data: stats, isLoading: statsLoading } = useQuery({
+  const { data: stats, isLoading: statsLoading } = useQuery<any>({
     queryKey: ["/api/dashboard/stats"],
   });
 
-  const { data: appointments, isLoading: appointmentsLoading } = useQuery({
+  const { data: appointments, isLoading: appointmentsLoading } = useQuery<any[]>({
     queryKey: ["/api/appointments"],
   });
 
-  const { data: officers, isLoading: officersLoading } = useQuery({
+  const { data: officers, isLoading: officersLoading } = useQuery<any[]>({
     queryKey: ["/api/officers"],
   });
 

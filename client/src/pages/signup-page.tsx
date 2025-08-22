@@ -95,7 +95,6 @@ export default function SignupPage() {
     }
 
     const appointmentData = {
-      customerId: "temp-customer-id", // This would come from auth context in real app
       fullName: formData.fullName,
       email: formData.email,
       phone: formData.phone,

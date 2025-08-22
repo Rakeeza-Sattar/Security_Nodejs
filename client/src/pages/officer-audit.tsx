@@ -52,12 +52,12 @@ export default function OfficerAudit() {
     serialNumber: '',
   });
 
-  const { data: appointment, isLoading: appointmentLoading } = useQuery({
+  const { data: appointment, isLoading: appointmentLoading } = useQuery<any>({
     queryKey: ["/api/appointments", id],
     enabled: !!id,
   });
 
-  const { data: auditItems, isLoading: itemsLoading } = useQuery({
+  const { data: auditItems, isLoading: itemsLoading } = useQuery<any[]>({
     queryKey: ["/api/audit-items", id],
     enabled: !!id,
   });
