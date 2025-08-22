@@ -64,13 +64,14 @@ export default function HomeownerDashboard() {
 
   // Dummy SquarePaymentForm component for context
   const SquarePaymentForm = ({ appointmentId, amount, onPaymentSuccess, onPaymentError }: any) => {
+    const paymentAmount = amount || 150.00; // Default amount if undefined
     return (
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Payment for Appointment #{appointmentId.slice(-6)}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Amount Due: ${amount.toFixed(2)}</p>
+          <p>Amount Due: ${paymentAmount.toFixed(2)}</p>
           {/* Placeholder for actual Square payment form integration */}
           <Button onClick={() => {
             // Simulate successful payment
@@ -201,7 +202,7 @@ export default function HomeownerDashboard() {
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
               <SquarePaymentForm
                 appointmentId={selectedAppointment.id.toString()}
-                amount={selectedAppointment.totalAmount}
+                amount={selectedAppointment.totalAmount || 150.00}
                 onPaymentSuccess={() => {
                   setShowPayment(false);
                   setSelectedAppointment(null);
