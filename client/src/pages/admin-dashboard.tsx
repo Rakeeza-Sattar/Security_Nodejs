@@ -31,11 +31,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 function AssignOfficerButton({ 
   appointmentId, 
   currentOfficerId, 
-  officers 
+  officers,
+  onAssign 
 }: { 
   appointmentId: string; 
   currentOfficerId?: string; 
-  officers: any[] 
+  officers: any[];
+  onAssign: () => void;
 }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -55,7 +57,7 @@ function AssignOfficerButton({
           title: "Officer assigned successfully",
           description: "The appointment has been assigned to the selected officer",
         });
-        queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+        onAssign(); // Invalidate queries using the callback
       } else {
         throw new Error("Failed to assign officer");
       }
@@ -202,7 +204,7 @@ export default function AdminDashboard() {
       completed: "secondary",
       cancelled: "destructive",
     };
-    
+
     return (
       <Badge variant={variants[status] || "outline"} data-testid={`badge-status-${status}`}>
         {status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}
@@ -262,7 +264,7 @@ export default function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card data-testid="stat-reports-generated">
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -278,7 +280,7 @@ export default function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card data-testid="stat-monthly-revenue">
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -294,7 +296,7 @@ export default function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card data-testid="stat-active-officers">
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -394,19 +396,26 @@ export default function AdminDashboard() {
                               {getStatusBadge(appointment.status)}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                              <AssignOfficerButton 
-                                appointmentId={appointment.id} 
-                                currentOfficerId={appointment.officerId}
-                                officers={officers || []}
-                              />
-                              <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
-                                data-testid={`button-confirm-appointment-${appointment.id}`}
-                              >
-                                ✓
-                              </Button>
+                              
+                              <div className="space-x-2">
+                                <Button 
+                                  size="sm"
+                                  onClick={() => updateAppointmentStatus(appointment.id, 'confirmed')}
+                                  disabled={appointment.status === 'completed'}
+                                  data-testid={`button-confirm-${appointment.id}`}
+                                >
+                                  <UserCheck className="mr-1" size={14} />
+                                  Confirm
+                                </Button>
+                                <AssignOfficerButton
+                                  appointmentId={appointment.id}
+                                  currentOfficerId={appointment.officerId}
+                                  officers={officers || []}
+                                  onAssign={() => {
+                                    queryClient.invalidateQueries({ queryKey: ["/api/appointments"] });
+                                  }}
+                                />
+                              </div>
                             </td>
                           </tr>
                         ))}
