@@ -12,12 +12,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Appointments
   app.post("/api/appointments", async (req, res) => {
     try {
-      // Create a temporary customer ID for guest bookings
-      const tempCustomerId = `guest_${Date.now()}`;
-      const appointmentData = {
-        ...req.body,
-        customerId: tempCustomerId,
-      };
+      // For guest bookings, don't include customerId (will be null)
+      const appointmentData = req.body;
       
       const validatedData = insertAppointmentSchema.parse(appointmentData);
       const appointment = await storage.createAppointment(validatedData);

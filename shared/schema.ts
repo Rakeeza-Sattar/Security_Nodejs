@@ -17,7 +17,7 @@ export const users = pgTable("users", {
 
 export const appointments = pgTable("appointments", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  customerId: varchar("customer_id").notNull().references(() => users.id),
+  customerId: varchar("customer_id").references(() => users.id), // Optional for guest bookings
   officerId: varchar("officer_id").references(() => users.id),
   fullName: text("full_name").notNull(),
   email: text("email").notNull(),
