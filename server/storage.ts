@@ -282,12 +282,13 @@ export class DatabaseStorage implements IStorage {
       .from(reports)
       .where(eq(reports.status, 'completed'));
 
+    // Fix monthly revenue calculation with proper DECIMAL to number conversion
     const [revenueStats] = await db
-      .select({ total: sql<number>`COALESCE(SUM(amount), 0)` })
+      .select({ total: sql<number>`COALESCE(SUM(CAST(amount AS DECIMAL(10,2))), 0)` })
       .from(payments)
       .where(and(
         eq(payments.status, 'completed'),
-        sql`DATE_TRUNC('month', created_at) = DATE_TRUNC('month', CURRENT_DATE)`
+        sql`EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM CURRENT_DATE)`
       ));
 
     const [officerStats] = await db
@@ -296,10 +297,10 @@ export class DatabaseStorage implements IStorage {
       .where(and(eq(users.role, 'officer'), eq(users.isActive, true)));
 
     return {
-      appointmentsToday: appointmentStats?.count || 0,
-      reportsGenerated: reportStats?.count || 0,
-      monthlyRevenue: revenueStats?.total || 0,
-      activeOfficers: officerStats?.count || 0,
+      appointmentsToday: Number(appointmentStats?.count || 0),
+      reportsGenerated: Number(reportStats?.count || 0),
+      monthlyRevenue: Number(revenueStats?.total || 0),
+      activeOfficers: Number(officerStats?.count || 0),
     };
   }
 }

@@ -571,6 +571,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create test payment data (Admin only - for testing purposes)
+  app.post("/api/admin/test-payment", async (req, res) => {
+    try {
+      if (!req.isAuthenticated() || req.user?.role !== 'admin') {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+
+      const testPayment = {
+        appointmentId: 'test-appointment-id',
+        customerId: req.user!.id,
+        amount: '150.00',
+        currency: 'USD',
+        service: 'title_protection',
+        status: 'completed',
+        squarePaymentId: `test-payment-${Date.now()}`,
+        metadata: { note: 'Test payment for admin testing' }
+      };
+
+      const payment = await storage.createPayment(testPayment);
+      res.status(201).json(payment);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create test payment" });
+    }
+  });
+
   // Generate Report
   app.post("/api/reports/generate/:appointmentId", async (req, res) => {
     try {

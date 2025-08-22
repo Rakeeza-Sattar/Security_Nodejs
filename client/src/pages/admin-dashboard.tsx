@@ -289,7 +289,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="ml-4">
                   <div className="text-2xl font-bold text-gray-900" data-testid="stat-revenue-amount">
-                    ${statsLoading ? "..." : stats?.monthlyRevenue?.toLocaleString() || "0"}
+                    ${statsLoading ? "..." : (stats?.monthlyRevenue || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                   <div className="text-sm text-gray-600">Monthly Revenue</div>
                 </div>
@@ -431,7 +431,37 @@ export default function AdminDashboard() {
           <TabsContent value="payments">
             <Card>
               <CardHeader>
-                <CardTitle>Payment History</CardTitle>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Payment History</CardTitle>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/admin/test-payment', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' }
+                        });
+                        if (response.ok) {
+                          toast({
+                            title: "Test payment created",
+                            description: "A test payment has been added to the system",
+                          });
+                          queryClient.invalidateQueries({ queryKey: ["/api/admin/payments"] });
+                          queryClient.invalidateQueries({ queryKey: ["/api/dashboard/stats"] });
+                        }
+                      } catch (error) {
+                        toast({
+                          title: "Error",
+                          description: "Failed to create test payment",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                  >
+                    + Add Test Payment
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 {paymentsLoading ? (
@@ -454,15 +484,30 @@ export default function AdminDashboard() {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {allPayments?.map((payment: any) => (
                           <tr key={payment.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payment.customerId}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${payment.amount}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm font-medium text-gray-900">
+                                {payment.customerId ? `Customer ${payment.customerId.slice(-6)}` : 'Guest'}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {payment.appointmentId ? `Appointment #${payment.appointmentId.slice(-6)}` : 'N/A'}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                              ${Number(payment.amount || 0).toFixed(2)}
+                            </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <Badge variant={payment.status === 'completed' ? 'default' : 'secondary'}>
                                 {payment.status}
                               </Badge>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {new Date(payment.createdAt).toLocaleDateString()}
+                              {new Date(payment.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
                             </td>
                           </tr>
                         ))}
