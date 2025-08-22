@@ -21,7 +21,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
-      <Route path="/admin/register" component={AdminRegister} />
+      <Route path="/admin-register" component={AdminRegister} />
       <Route path="/signup" component={SignupPage} />
       <Route path="/confirmation/:id" component={ConfirmationPage} />
       <Route path="/dashboard" component={HomeownerDashboard} />
