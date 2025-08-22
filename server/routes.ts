@@ -61,7 +61,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else if (req.user?.role === 'officer') {
         appointments = await storage.getAppointmentsByOfficer(req.user.id);
       } else {
-        appointments = await storage.getAppointmentsByCustomer(req.user!.id);
+        // For homeowners, get appointments by both customerId and email
+        const appointmentsByCustomer = await storage.getAppointmentsByCustomer(req.user!.id);
+        const appointmentsByEmail = await storage.getAppointmentsByEmail(req.user!.email);
+        
+        // Combine and deduplicate appointments
+        const allUserAppointments = [...appointmentsByCustomer, ...appointmentsByEmail];
+        appointments = allUserAppointments.filter((apt, index, self) => 
+          index === self.findIndex(a => a.id === apt.id)
+        );
       }
 
       res.json(appointments);

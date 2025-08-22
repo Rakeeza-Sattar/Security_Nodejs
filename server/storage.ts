@@ -23,6 +23,7 @@ export interface IStorage {
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   getAppointment(id: string): Promise<Appointment | undefined>;
   getAppointmentsByCustomer(customerId: string): Promise<Appointment[]>;
+  getAppointmentsByEmail(email: string): Promise<Appointment[]>;
   getAppointmentsByOfficer(officerId: string): Promise<Appointment[]>;
   getAllAppointments(): Promise<Appointment[]>;
   updateAppointmentStatus(id: string, status: string): Promise<void>;
@@ -48,7 +49,7 @@ export interface IStorage {
 
   // Officers
   getOfficers(): Promise<User[]>;
-  
+
   // Dashboard Stats
   getDashboardStats(): Promise<{
     appointmentsToday: number;
@@ -111,6 +112,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(appointments)
       .where(eq(appointments.customerId, customerId))
       .orderBy(desc(appointments.createdAt));
+  }
+
+  async getAppointmentsByEmail(email: string): Promise<Appointment[]> {
+    return await db.select().from(appointments).where(eq(appointments.email, email));
   }
 
   async getAppointmentsByOfficer(officerId: string): Promise<Appointment[]> {
@@ -177,7 +182,7 @@ export class DatabaseStorage implements IStorage {
 
   async getAuditItemsByAppointment(appointmentId: string): Promise<AuditItem[]> {
     return await db.select().from(auditItems)
-      .where(eq(auditItems.appointmentId, appointmentId))
+      .where(eq(appointmentId, appointmentId))
       .orderBy(desc(auditItems.createdAt));
   }
 
@@ -266,7 +271,7 @@ export class DatabaseStorage implements IStorage {
     activeOfficers: number;
   }> {
     const today = new Date().toISOString().split('T')[0];
-    
+
     const [appointmentStats] = await db
       .select({ count: sql<number>`count(*)` })
       .from(appointments)
