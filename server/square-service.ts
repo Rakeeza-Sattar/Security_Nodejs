@@ -150,10 +150,10 @@ class SquareService {
       };
     } catch (error: any) {
       console.error('Square plan creation error:', error);
-      if (error instanceof ApiError) {
+      if (error && error.errors) {
         return {
           success: false,
-          error: error.errors?.[0]?.detail || 'Plan creation failed'
+          error: error.errors[0]?.detail || 'Plan creation failed'
         };
       }
       return {
