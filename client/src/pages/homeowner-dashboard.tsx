@@ -201,3 +201,229 @@ export default function HomeownerDashboard() {
     </div>
   );
 }
+import { useAuth } from "@/hooks/use-auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Clock, FileText, CreditCard, Shield, Home } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+
+interface Appointment {
+  id: string;
+  appointmentDate: string;
+  timeSlot: string;
+  address: string;
+  status: string;
+  service: string;
+}
+
+interface Payment {
+  id: string;
+  amount: string;
+  service: string;
+  status: string;
+  createdAt: string;
+}
+
+export default function HomeownerDashboard() {
+  const { user, logout } = useAuth();
+
+  const { data: appointments = [] } = useQuery<Appointment[]>({
+    queryKey: ["appointments"],
+    queryFn: async () => {
+      const response = await fetch("/api/appointments", {
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to fetch appointments");
+      return response.json();
+    },
+  });
+
+  const { data: payments = [] } = useQuery<Payment[]>({
+    queryKey: ["payments"],
+    queryFn: async () => {
+      const response = await fetch("/api/payments", {
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Failed to fetch payments");
+      return response.json();
+    },
+  });
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "scheduled":
+        return "bg-blue-100 text-blue-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-4">
+              <Shield className="h-8 w-8 text-blue-600" />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">SecureHome Audit</h1>
+                <p className="text-sm text-gray-600">Homeowner Dashboard</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-700">Welcome, {user?.fullName}</span>
+              <Button onClick={logout} variant="outline" size="sm">
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Appointments</CardTitle>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{appointments.length}</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Completed Audits</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {appointments.filter(apt => apt.status === 'completed').length}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Payments</CardTitle>
+              <CreditCard className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">${payments.reduce((sum, p) => sum + parseFloat(p.amount), 0).toFixed(2)}</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Protection Active</CardTitle>
+              <Shield className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-600">Yes</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Appointments */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Appointments</CardTitle>
+              <CardDescription>Your latest security audit appointments</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {appointments.slice(0, 5).map((appointment) => (
+                  <div key={appointment.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Home className="h-5 w-5 text-gray-400" />
+                      <div>
+                        <p className="font-medium">{appointment.service}</p>
+                        <p className="text-sm text-gray-600">{appointment.address}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(appointment.appointmentDate).toLocaleDateString()} at {appointment.timeSlot}
+                        </p>
+                      </div>
+                    </div>
+                    <Badge className={getStatusColor(appointment.status)}>
+                      {appointment.status}
+                    </Badge>
+                  </div>
+                ))}
+                {appointments.length === 0 && (
+                  <p className="text-center text-gray-500 py-4">No appointments found</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Payment History */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Payment History</CardTitle>
+              <CardDescription>Your recent payments and transactions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {payments.slice(0, 5).map((payment) => (
+                  <div key={payment.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <CreditCard className="h-5 w-5 text-gray-400" />
+                      <div>
+                        <p className="font-medium">{payment.service}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(payment.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-medium">${payment.amount}</p>
+                      <Badge className={getStatusColor(payment.status)}>
+                        {payment.status}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
+                {payments.length === 0 && (
+                  <p className="text-center text-gray-500 py-4">No payments found</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Common tasks and services</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Button className="h-auto p-6 flex flex-col items-center space-y-2">
+                <Calendar className="h-8 w-8" />
+                <span>Schedule New Audit</span>
+              </Button>
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-2">
+                <FileText className="h-8 w-8" />
+                <span>View Reports</span>
+              </Button>
+              <Button variant="outline" className="h-auto p-6 flex flex-col items-center space-y-2">
+                <Shield className="h-8 w-8" />
+                <span>Manage Protection</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

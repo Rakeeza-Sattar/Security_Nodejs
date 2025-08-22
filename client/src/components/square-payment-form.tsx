@@ -106,17 +106,17 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
 
     try {
       const tokenResult = await cardButton.tokenize();
-      
+
       if (tokenResult.status === 'OK') {
         const sourceId = tokenResult.token;
         onPaymentSuccess(sourceId, tokenResult);
       } else {
         let errorMessage = 'Payment failed';
-        
+
         if (tokenResult.errors) {
           errorMessage = tokenResult.errors.map((error: any) => error.message).join(', ');
         }
-        
+
         onPaymentError(errorMessage);
       }
     } catch (error) {
@@ -132,7 +132,7 @@ export function SquarePaymentForm({ amount, onPaymentSuccess, onPaymentError, di
           <CreditCard className="mr-2" />
           Payment Method
         </h4>
-        
+
         {/* Square Card Input Container */}
         <div 
           ref={cardContainerRef} 
