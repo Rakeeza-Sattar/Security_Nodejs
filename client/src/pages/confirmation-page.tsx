@@ -138,7 +138,7 @@ export default function ConfirmationPage() {
                   Add Title Protection for Complete Security
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Protect your property title from fraud with 24/7 monitoring for just $50/month.
+                  Want to protect your home deed from fraud? Add Title Protection today for just $50/month.
                 </p>
                 <Button 
                   className="bg-primary text-white hover:bg-blue-700"

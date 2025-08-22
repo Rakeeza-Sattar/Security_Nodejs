@@ -161,7 +161,8 @@ export default function SignupPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePaymentSuccess = async (sourceId: string, paymentResult: any) => {
+  const handlePaymentSuccess = async (result: any) => {
+    const sourceId = result.nonce || result.sourceId;
     if (!appointmentId) {
       toast({
         title: "Error",
@@ -184,10 +185,11 @@ export default function SignupPage() {
     setIsProcessingPayment(false);
   };
 
-  const handlePaymentError = (error: string) => {
+  const handlePaymentError = (error: any) => {
+    const errorMessage = typeof error === 'string' ? error : error.message || 'Payment failed';
     toast({
       title: "Payment Error",
-      description: error,
+      description: errorMessage,
       variant: "destructive",
     });
     setIsProcessingPayment(false);
@@ -403,6 +405,7 @@ export default function SignupPage() {
                 {/* Square Payment Form Integration - Only show if title protection is selected */}
                 {formData.addTitleProtection && (
                   <SquarePaymentForm
+                    appointmentId={appointmentId || ''}
                     amount={50}
                     onPaymentSuccess={handlePaymentSuccess}
                     onPaymentError={handlePaymentError}
@@ -444,6 +447,7 @@ export default function SignupPage() {
                       Complete your Title Protection payment to finish booking
                     </p>
                     <SquarePaymentForm
+                      appointmentId={appointmentId || ''}
                       amount={50}
                       onPaymentSuccess={handlePaymentSuccess}
                       onPaymentError={handlePaymentError}

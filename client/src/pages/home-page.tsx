@@ -48,22 +48,22 @@ export default function HomePage() {
                 We send a licensed security officer to your home to document your valuables and receipts.
               </h1>
               <p className="text-xl text-blue-100 mb-8" data-testid="text-hero-subheadline">
-                Professional home security audits by licensed officers. Protect your valuables with comprehensive documentation for insurance claims.
+                We send a licensed security officer to your home to document your valuables and receipts, so you're protected in case of theft, fire, or fraud.
               </p>
               
               {/* Key Benefits */}
               <div className="space-y-4 mb-8">
                 <div className="flex items-center" data-testid="benefit-licensed">
                   <Check className="text-accent mr-3" />
-                  <span>Licensed security officers with verified credentials</span>
+                  <span>Fast insurance claim approval with proof</span>
                 </div>
                 <div className="flex items-center" data-testid="benefit-documentation">
                   <Check className="text-accent mr-3" />
-                  <span>Complete photo documentation and receipts verification</span>
+                  <span>Licensed, background-checked officers at your home</span>
                 </div>
                 <div className="flex items-center" data-testid="benefit-reports">
                   <Check className="text-accent mr-3" />
-                  <span>Professional PDF reports for insurance claims</span>
+                  <span>Peace of mind + title fraud protection add-on</span>
                 </div>
               </div>
 
