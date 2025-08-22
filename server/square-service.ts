@@ -1,5 +1,5 @@
 // @ts-ignore - squareup types not available
-import { Client, Environment, ApiError } from "squareup";
+import { Client, Environment } from "squareup";
 
 interface PaymentRequest {
   sourceId: string;
@@ -51,10 +51,10 @@ class SquareService {
       };
     } catch (error: any) {
       console.error('Square payment error:', error);
-      if (error instanceof ApiError) {
+      if (error && error.errors) {
         return {
           success: false,
-          error: error.errors?.[0]?.detail || 'Payment failed'
+          error: error.errors[0]?.detail || 'Payment failed'
         };
       }
       return {
@@ -79,10 +79,10 @@ class SquareService {
       };
     } catch (error: any) {
       console.error('Square customer creation error:', error);
-      if (error instanceof ApiError) {
+      if (error && error.errors) {
         return {
           success: false,
-          error: error.errors?.[0]?.detail || 'Customer creation failed'
+          error: error.errors[0]?.detail || 'Customer creation failed'
         };
       }
       return {
@@ -109,10 +109,10 @@ class SquareService {
       };
     } catch (error: any) {
       console.error('Square subscription error:', error);
-      if (error instanceof ApiError) {
+      if (error && error.errors) {
         return {
           success: false,
-          error: error.errors?.[0]?.detail || 'Subscription creation failed'
+          error: error.errors[0]?.detail || 'Subscription creation failed'
         };
       }
       return {
