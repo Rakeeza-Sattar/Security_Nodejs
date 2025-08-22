@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,8 +54,8 @@ export default function HomeownerDashboard() {
   // Placeholder for SquarePaymentForm component and state management
   // In a real application, this would be imported and managed appropriately.
   // For the purpose of this example, we'll assume it exists and manages payment logic.
-  const [showPayment, setShowPayment] = React.useState(false);
-  const [selectedAppointment, setSelectedAppointment] = React.useState<any>(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
 
   const handlePayClick = (appointment: any) => {
     setSelectedAppointment(appointment);
